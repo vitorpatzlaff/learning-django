@@ -127,7 +127,7 @@ _local_settings.py
 gunicorn-error-log
 db.sqlite3
 db copy.sqlite3
-static/
+admin/
 
 # Change this in the future #
 !db.sqlite3

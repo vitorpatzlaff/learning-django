@@ -32,7 +32,7 @@ class RecipeTestBase(TestCase):
     def make_recipe(
         self,
         category_data=None,
-        author_data=None,
+        author_data={},
         title='Recipe Title',
         description='Recipe description',
         slug='recipe-slug',
@@ -47,12 +47,9 @@ class RecipeTestBase(TestCase):
         if category_data is None:
             category_data = {'name': 'a'}
 
-        if author_data is None:
-            author_data = {}
-
         return Recipe.objects.create(
             category=self.make_category(**category_data),
-            author=self.make_author(**author_data),
+            author=author_data if author_data is None else self.make_author(**author_data),
             title=title,
             description=description,
             slug=slug,

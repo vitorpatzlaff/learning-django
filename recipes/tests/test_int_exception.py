@@ -7,9 +7,7 @@ from .test_recipe_base import RecipeTestBase
 
 class PageIntTest(RecipeTestBase):
     def test_if_recipe_renders_when_page_is_not_int(self):
-        for i in range(8):
-            kwargs = {'author_data': None, 'slug': f'r{i}'}
-            self.make_recipe(**kwargs)
+        self.make_recipe_in_batch(8)
 
         with patch('recipes.views.PER_PAGE', new=3):
             response = self.client.get(reverse('recipes:home') + '?page=2')

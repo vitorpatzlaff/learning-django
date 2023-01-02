@@ -56,6 +56,19 @@ class RecipeMixin:
             is_published=is_published,
         )
 
+    def make_recipe_in_batch(self, qtd=10):
+        recipes = []
+        for i in range(qtd):
+            kwargs = {
+                'author_data': None,
+                'slug': f'r{i}',
+                'title': f'Recipe Title {i}',
+            }
+            recipe = self.make_recipe(**kwargs)
+            recipes.append(recipe)
+
+        return recipes
+
 
 class RecipeTestBase(TestCase, RecipeMixin):
     def setUp(self) -> None:

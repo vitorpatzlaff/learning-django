@@ -7,11 +7,6 @@ from .base import AuthorsBaseTest
 
 @pytest.mark.functional_test
 class AuthorsRegisterTest(AuthorsBaseTest):
-    def get_by_placeholder(self, web_element, placeholder):
-        return web_element.find_element(
-            By.XPATH, f'//input[@placeholder="{placeholder}"]'
-        )
-
     def fill_form_dummy_data(self, form):
         fields = form.find_elements(By.TAG_NAME, 'input')
 
@@ -117,5 +112,3 @@ class AuthorsRegisterTest(AuthorsBaseTest):
             'Your user is created, please log in.',
             self.browser.find_element(By.TAG_NAME, 'body').text
         )
-
-        self.sleep(10)

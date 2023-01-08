@@ -130,6 +130,4 @@ db copy.sqlite3
 static/
 bin/
 
-# Change this in the future #
-!db.sqlite3
 my-deploy/

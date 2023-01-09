@@ -13,7 +13,7 @@ class Tag(models.Model):
 
     # Fields for generic relations
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.CharField()
+    object_id = models.CharField(max_length=255)
 
     content_object = GenericForeignKey('content_type', 'object_id')
 

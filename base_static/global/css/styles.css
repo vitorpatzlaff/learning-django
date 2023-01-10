@@ -468,6 +468,11 @@ a {
   margin: var(--spacing-gutter-medium) 0;
 }
 
+.hidden-text {
+  display: none;
+  opacity: 0;
+}
+
 @media (max-width: 600px) {
 
   .main-content-list,

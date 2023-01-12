@@ -30,7 +30,7 @@ class RecipeSerializer(serializers.ModelSerializer):
     tag_links = serializers.HyperlinkedRelatedField(
         many=True,
         source='tags',
-        queryset=Tag.objects.all(),
+        read_only=True,
         view_name='recipes:recipe_api_v2_tag',
     )
 

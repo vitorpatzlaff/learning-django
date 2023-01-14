@@ -7,8 +7,8 @@ from recipes.tests.test_recipe_base import RecipeMixin
 
 
 class RecipeAPIv2Test(test.APITestCase, RecipeMixin):
-    def get_recipe_api_list(self, query_string=''):
-        api_url = reverse('recipes:recipes-api-list') + query_string
+    def get_recipe_api_list(self, reverse_result=None):
+        api_url = reverse_result or reverse('recipes:recipes-api-list')
         return self.client.get(api_url)
 
     def test_recipe_api_list_returns_status_code_200(self):
@@ -34,3 +34,28 @@ class RecipeAPIv2Test(test.APITestCase, RecipeMixin):
         response = self.get_recipe_api_list()
 
         self.assertEqual(len(response.data.get('results')), 1)
+
+    @patch('recipes.views.api.RecipeAPIv2Pagination.page_size', new=10)
+    def test_recipe_api_list_loads_recipes_by_caregory_id(self):
+        # Create categories
+        category_wanted = self.make_category(name='WANTED_CATEGORY')
+        category_not_wanted = self.make_category(name='NOT_WANTED_CATEGORY')
+
+        # Create 10 recipes
+        recipes = self.make_recipe_in_batch(qtd=10)
+
+        # Change all recipes to the wanted category
+        for recipe in recipes:
+            recipe.category = category_wanted
+            recipe.save()
+
+        # Change one recipe to the NOT wanted category, and this recipe should not be shown
+        recipes[0].category = category_not_wanted
+        recipes[0].save()
+
+        # Action: get recupes by wanted category_id
+        api_url = reverse('recipes:recipes-api-list') + f'?category_id={category_wanted.id}'
+        response = self.get_recipe_api_list(reverse_result=api_url)
+
+        # We should only see recipes from the wanted category
+        self.assertEqual(len(response.data.get('results')), 9)
